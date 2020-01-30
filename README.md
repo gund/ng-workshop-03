@@ -1,4 +1,17 @@
-# NgWorkshop03Home
+# ng-workshop-03-home
+
+In this project your main task is to fix a bug when user switches channels
+and/or updates breaking news toggle - all news are being lost.
+Please make sure that when this updates are happening - channels always display all news that happened.
+
+Your secondary task is to improve rendering of all news (normal + breaking):
+right now they are split in 2 with breaking news on top of the others.
+Please fix it that the list of all news shows breaking and other news in the order of their appearance.
+
+There is only 1 condition - you are not allowed not to use Observables
+meaning you should keep the app built on Observables =)
+
+---
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.23.
 
