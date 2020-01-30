@@ -1,0 +1,26 @@
+<p>
+  Subscribe to channels:
+  <select multiple [(ngModel)]="subscribedChannels">
+    <option *ngFor="let channel of channels" [value]="channel">
+      {{ channel.name }}
+    </option>
+  </select>
+</p>
+
+<div class="channels">
+  <div *ngFor="let channel of subscribedChannels">
+    <h2>Channel {{ channel.name }}</h2>
+    <p>
+      <label>
+        <input type="checkbox" [(ngModel)]="channel.showBreaking" />
+        Show breaking news?
+      </label>
+    </p>
+    <ng-container
+      *ngComponentOutlet="
+        channel.component;
+        ndcDynamicInputs: { showBreakingNews: channel.showBreaking }
+      "
+    ></ng-container>
+  </div>
+</div>

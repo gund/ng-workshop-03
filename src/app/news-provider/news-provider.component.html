@@ -1,0 +1,11 @@
+<h2>News Provider</h2>
+<p>
+  Spread the news:
+  <input type="text" #news />
+  <label><input type="checkbox" #isBreaking /> Breaking?</label>
+</p>
+<p>
+  <button (click)="addNews(news.value, isBreaking.checked)">
+    Spread it!
+  </button>
+</p>

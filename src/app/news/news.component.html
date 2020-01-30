@@ -1,0 +1,24 @@
+<ng-container *ngIf="showBreaking; else allNews">
+  <h3>Breaking news</h3>
+  <ng-container
+    *ngTemplateOutlet="renderNews; context: { $implicit: breakingNews$ }"
+  ></ng-container>
+
+  <h3>Other News</h3>
+  <ng-container
+    *ngTemplateOutlet="renderNews; context: { $implicit: news$ }"
+  ></ng-container>
+</ng-container>
+
+<ng-template #allNews>
+  <h3>All News</h3>
+  <ng-container
+    *ngTemplateOutlet="renderNews; context: { $implicit: allNews$ }"
+  ></ng-container>
+</ng-template>
+
+<ng-template #renderNews let-newsObs>
+  <ul>
+    <li *ngFor="let news of newsObs | async">{{ news }}</li>
+  </ul>
+</ng-template>
