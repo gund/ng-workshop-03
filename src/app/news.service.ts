@@ -1,29 +1,43 @@
 // tslint:disable: variable-name
 import { Injectable } from '@angular/core';
-import { OperatorFunction, BehaviorSubject } from 'rxjs';
-import { scan } from 'rxjs/operators';
+import { OperatorFunction, Subject, merge } from 'rxjs';
+import { scan, shareReplay } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NewsService {
-  private _news$ = new BehaviorSubject<string[]>([]);
-  private _breakingNews$ = new BehaviorSubject<string[]>([]);
+  private _news$ = new Subject<string>();
+  private _breakingNews$ = new Subject<string>();
 
-  news$ = this._news$;
-  breakingNews$ = this._breakingNews$;
+  news$ = this._news$.pipe(
+      storeNews(),
+      shareReplay()
+  );
 
-  allNews$ = new BehaviorSubject<string[]>([]);
+  breakingNews$ = this._breakingNews$.pipe(
+      storeNews(),
+      shareReplay()
+  );
+
+  allNews$ = merge(
+    this.breakingNews$,
+    this.news$
+  ).pipe(
+      scan((allNews, news) => {
+          const lastNews = news[news.length - 1];
+
+          return [...allNews, lastNews];
+      }, []),
+      shareReplay()
+  );
 
   addNews(news: string) {
-    this._news$.next([...this._news$.getValue(), news]);
-    this.allNews$.next([...this.allNews$.getValue(), news]);
+    this._news$.next(news);
   }
 
   addBreakingNews(news: string) {
-    const breakingString = `BREAKING: ${news}`;
-    this._breakingNews$.next(([...this._breakingNews$.getValue(), breakingString]));
-    this.allNews$.next([...this.allNews$.getValue(), breakingString]);
+    this._breakingNews$.next(`BREAKING: ${news}`);
   }
 }
 
