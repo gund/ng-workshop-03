@@ -1,7 +1,7 @@
 // tslint:disable: variable-name
 import { Injectable } from '@angular/core';
 import { combineLatest, OperatorFunction, Subject } from 'rxjs';
-import { map, scan, shareReplay, startWith } from 'rxjs/operators';
+import {map, scan, shareReplay, startWith, tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,8 +10,8 @@ export class NewsService {
   private _news$ = new Subject<string>();
   private _breakingNews$ = new Subject<string>();
 
-  news$ = this._news$.pipe(storeNews());
-  breakingNews$ = this._breakingNews$.pipe(storeNews());
+  news$ = this._news$.pipe(storeNews(), shareReplay(1));
+  breakingNews$ = this._breakingNews$.pipe(storeNews(), shareReplay(1));
 
   allNews$ = combineLatest(
     // combineLatest will start emitting when all of it's streams will emit at least one time
