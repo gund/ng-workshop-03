@@ -19,6 +19,6 @@
 
 <ng-template #renderNews let-newsObs>
   <ul>
-    <li *ngFor="let news of newsObs | async">{{ news }}</li>
+    <li *ngFor="let news of newsObs | async">{{ news.title }}</li>
   </ul>
 </ng-template>
